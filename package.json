@@ -10,14 +10,20 @@
     "type": "git",
     "url": "git+https://github.com/KareemZuwa/HamsterwarsBackEnd.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express",
+    "REST",
+    "API",
+    "Firestore"
+  ],
+  "author": "Kareem Zuwa",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/KareemZuwa/HamsterwarsBackEnd/issues"
   },
   "homepage": "https://github.com/KareemZuwa/HamsterwarsBackEnd#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "firebase-admin": "^9.11.1"
   }
 }

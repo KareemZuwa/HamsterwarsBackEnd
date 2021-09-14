@@ -17,8 +17,6 @@ app.use( (req, res, next) => {
 	next()
 } )
 
-// inställningar för passport
-
 // Starta servern
 app.listen(PORT, () => {
 	console.log(`Server is listening on port ${PORT}.`)
