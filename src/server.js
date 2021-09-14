@@ -2,7 +2,6 @@
 const express = require('express')
 const app = express()
 
-
 // Konfigurera servern
 const PORT = process.env.PORT || 3030
 // räknar antal requests

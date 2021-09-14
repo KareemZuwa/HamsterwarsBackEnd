@@ -11,5 +11,4 @@ function connect() {
       return db
 }
 
-
 module.exports = { connect }

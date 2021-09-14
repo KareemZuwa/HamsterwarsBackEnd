@@ -1,9 +1,9 @@
+// Importera Firebase certifieringen och lägg i en variabel
 const {connect} = require('../database.js')
 const db = connect()
 
+// Databas Collection Hamster
 const HAMSTERS = 'hamsters'
-
-
 getAll();
 
 async function getAll () {
@@ -18,10 +18,12 @@ async function getAll () {
     // console.log(hamsterSnapshot)
 
     if( hamsterSnapshot.empty ) {
+        // Om det inte finns dokument i snapshot/collection
         console.log('No snapShots')
         return
     }
 
+    // Lägg snapshot dokument i en ny tom array
     const array = []
 
     await hamsterSnapshot.forEach(async docRef => {
