@@ -9,7 +9,7 @@ let requestCount = 0
 
 // Setup MiddleWare
 app.use( '/web', express.static(__dirname + '/../frontend') )
-app.use( express.urlencoded() )
+app.use( express.urlencoded({ extended: true }) )
 app.use( express.json() )
 app.use( (req, res, next) => {
 	requestCount++
