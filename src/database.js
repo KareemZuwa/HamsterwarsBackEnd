@@ -1,3 +1,4 @@
+// Import
 const admin = require('firebase-admin');
 
 const serviceAccount = require('../secrets/hamsterwars-firebase-key.json');

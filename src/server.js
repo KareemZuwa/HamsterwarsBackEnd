@@ -19,7 +19,6 @@ app.use( (req, res, next) => {
 } )
 
 //ROUTES AND ENDPOINTS
-
 //Statisk mapp
 app.use( '/web', express.static(__dirname + '/../frontend') )
 
