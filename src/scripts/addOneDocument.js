@@ -20,9 +20,8 @@ async function addOne() {
         name: 'Smulan',
         loves: 'lukta på blommorna',
         defeats: 0
-        
-
     }
+    
     // utan att ange id
 const docRef = await db.collection(HAMSTERS).add(hamsterObject)
 console.log('The document id is: ' + docRef.id)

@@ -8,7 +8,6 @@ const HAMSTERS = 'hamsters'
 // kalla på funktion
 getOne();
 
-
 // Hämta "Dart" från databasen
 async function getOne(id) {
 	console.log('Looking for Dart');

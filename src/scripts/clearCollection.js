@@ -3,9 +3,9 @@ const db = connect()
 
 const HAMSTERS = 'hamsters'
 
-clear();
+clearCollection();
 
-async function clear() {
+async function clearCollection() {
 	const hamstersRef = db.collection(HAMSTERS)
 	const hamsterSnapshot = await hamstersRef.get()
 
