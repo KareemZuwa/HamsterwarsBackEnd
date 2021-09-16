@@ -11,6 +11,7 @@ async function clearCollection() {
 
 	// Om Collection är tom
 	if( hamsterSnapshot.empty ) {
+		console.log('Collection is empty')
 		return
 	}
 		// Om Collection inte är tom så töm

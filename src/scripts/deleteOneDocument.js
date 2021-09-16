@@ -10,7 +10,7 @@ deleteOne()
 
 async function deleteOne(id) {
     console.log('Updating a document...')
-    const docId = id || "6vHk8qDOonk0ldOOBnW9"
+    const docId = id || "12AWb4BFKibYIkEb99BD"
 
     const docRef = db.collection(HAMSTERS).doc(docId)
     const result = await docRef.delete()

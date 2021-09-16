@@ -14,8 +14,7 @@ function isHamstersObject(maybe) {
     !keys.includes('name') || 
     !keys.includes('favFood') || 
     !keys.includes('imgName') || 
-    !keys.includes('age') || 
-    !keys.includes('id') || 
+    !keys.includes('age') ||
     !keys.includes('defeats') || 
     !keys.includes('games') || 
     !keys.includes('loves') 

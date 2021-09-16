@@ -10,8 +10,8 @@ getOne();
 
 // Hämta "Dart" från databasen
 async function getOne(id) {
-	console.log('Looking for Dart');
-	const docId = id || '0LUjvKfuYAQON8iieS0l'
+	console.log('Looking for one Hamster');
+	const docId = id || '1gF9PJHiUERqdn45i3jU'
 
 	const docSnapshot = await db.collection(HAMSTERS).doc(docId).get()
 

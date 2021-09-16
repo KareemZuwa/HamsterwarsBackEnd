@@ -10,7 +10,7 @@ updateOne()
 
 async function updateOne(id) {
     console.log('Updating a document...')
-    const docId = id || "6vHk8qDOonk0ldOOBnW9"
+    const docId = id || "5BU0yleU2QtFBWlXiYcI"
 
     const updates = {
         //Testar att ändra och uppdatera alla variabler 
@@ -18,7 +18,6 @@ async function updateOne(id) {
         // games: 0,
         age: 6,
         // favFood: 'tomat',
-        // id: 43,
         // imgName: 'hamster-43.jpg',
         name: 'Quinn',
         loves: 'vattenlek',

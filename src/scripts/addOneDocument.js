@@ -15,7 +15,6 @@ async function addOne() {
         games: 0,
         age: 2,
         favFood: 'honung',
-        id: 41,
         imgName: 'hamster-41.jpg',
         name: 'Smulan',
         loves: 'lukta på blommorna',
