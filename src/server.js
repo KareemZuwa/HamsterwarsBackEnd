@@ -1,6 +1,7 @@
 // Importera paket: Express + Middleware
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const hamstersRouter = require('../routes/hamsters.js')
 
 // Konfigurera servern
@@ -9,8 +10,11 @@ const PORT = process.env.PORT || 3030
 let requestCount = 0
 
 // Setup MiddleWare
+app.use( cors() )
 app.use( express.urlencoded({ extended: true }) )
 app.use( express.json() )
+
+
 //Logger
 app.use( (req, res, next) => {
 	requestCount++

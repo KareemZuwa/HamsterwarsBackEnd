@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-server": "node src/server.js"
+    "start-server": "node src/server.js",
+    "test-frontend": "npx http-server ./evaluate/"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/KareemZuwa/HamsterwarsBackEnd#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^9.11.1"
   }

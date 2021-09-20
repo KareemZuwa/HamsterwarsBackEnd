@@ -14,8 +14,8 @@ const HAMSTERS = 'hamsters'
 // GET GET GET GET //
 //GET /hamster
 router.get('/', async (req, res) => {
-	let array = await getAll()
-	res.send(array)
+	let hamsterArray = await getAll()
+	res.send(hamsterArray)
 })
 
 //GET hamster/random
@@ -29,20 +29,26 @@ router.get('/random', async (req, res) => {
 //GET hamster/id
 router.get('/:id', async (req, res) => {
 	const maybeUser = await getOne(req.params.id)
-	res.send(maybeUser)  // antingen null eller ett user-objekt
+
+	if (!maybeUser) {
+		res.status(404).send('Hamster does not exist')
+		return
+	} else {
+		res.status(200).send(maybeUser)
+	}
 })
 
 //POST POST POST POST //
 //POST hamster
 router.post('/', async (req, res) => {
-	let maybeBody = req.body
+	let maybeBody = await req.body
 	if( !isHamstersObject(maybeBody) ) {
 		res.status(400).send('Bad hamster object')
 		return
 	}
-
-	await db.collection(HAMSTERS).add(maybeBody)
-	res.sendStatus(200)
+	let docRef = await db.collection(HAMSTERS).add(maybeBody)
+	let newPost = {id: docRef.id}
+	res.status(200).send(newPost)
 })
 
 // PUT PUT PUT PUT //
@@ -62,7 +68,7 @@ router.put('/:id', async (req, res) => {
 
 // DELETE DELETE DELETE DELETE //
 router.delete('/:id', async(req, res) => {
-    const docRef = db.collection(HAMSTERS).doc()
+    const docRef = await db.collection(HAMSTERS).doc()
 	let id = Number(req.params.id)
 	if( !isProperIndex(id, docRef.length) ) {
 		res.status(400).send('Bad hamster index')
@@ -96,6 +102,7 @@ async function getAll() {
 async function getOne(id) {
 	const hamstersRef = db.collection(HAMSTERS).doc(id)
 	const docSnapshot = await hamstersRef.get()
+
 	if( docSnapshot.exists ) {
 		return await docSnapshot.data()
 	} else {
@@ -106,6 +113,7 @@ async function getOne(id) {
 //PUT ONE FUNCTION TO
 async function updateOne(id, object) {
 	const docRef = db.collection(HAMSTERS).doc(id)
+
 	docRef.set(object)
 }
 
