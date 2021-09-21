@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 
 // Importera valideringsfunktioner
-const { isProperIndex, isHamstersObject } = require('./modules/validation.js')
+const { isProperIndex, isHamstersObject , isGameObject} = require('./modules/validation.js')
 
 // Hämta databas
 const database = require('../src/database.js')
@@ -39,7 +39,6 @@ router.get('/:id', async (req, res) => {
 })
 
 //POST POST POST POST //
-//POST hamster
 router.post('/', async (req, res) => {
 	let maybeBody = await req.body
 	if( !isHamstersObject(maybeBody) ) {
@@ -52,31 +51,53 @@ router.post('/', async (req, res) => {
 })
 
 // PUT PUT PUT PUT //
-//PUT hamster/:id
 router.put('/:id', async (req, res) => {
-	const maybeBody = req.body
-	// kontrollera att body är okej
-	if( !isHamstersObject(maybeBody) ) {
+	const maybeBody = await req.body
+	// let docRef = db.collection(HAMSTERS).doc()
+
+	let updateHamster = await getOne(req.params.id);
+	if (!updateHamster) {
+		res.sendStatus(404)
+		return
+	};
+	
+	if( !isGameObject(maybeBody) ) {
 		res.status(400).send('Must send a user object.')
 		return
 	}
-
-	// skicka ändringar till databasen
+	
 	await updateOne(req.params.id, maybeBody)
 	res.sendStatus(200)
+
 })
 
 // DELETE DELETE DELETE DELETE //
 router.delete('/:id', async(req, res) => {
-    const docRef = await db.collection(HAMSTERS).doc()
-	let id = Number(req.params.id)
-	if( !isProperIndex(id, docRef.length) ) {
-		res.status(400).send('Bad hamster index')
-	} else {
-        const docOne = docRef.doc(id)
-		await docOne.delete()
+	// const maybeBody = await req.body
+	let index = req.params.id
+	let hamsterArray = await getAll()
+	let hamsterArrayId = hamsterArray.find(hamster => hamster.id === index)
+	// console.log(hamsterArrayId.index)
+
+	// if (deletedHamster) {
+	// 	hamsterArray = hamsterArray.filter(hamster => hamster.index !== index);
+	// 	const docRef = await db.collection(HAMSTERS).doc(index)
+	//  	await docRef.delete()
+	// 	 res.status(200).send('The hamster got deleted')
+	// 	 return
+
+	// } else {
+	// 	res.status(404).send('Hamster you are lookin for does not exist')
+	// }
+
+
+
+	// 	console.log('It exist a hamster of this ID')
+
+    const docRef = await db.collection(HAMSTERS).doc(index)
+	 await docRef.delete()
+
 		res.sendStatus(200)
-	}
 })
 
 //FUNCTIONS FOR THE ROUTES CAN BE REMOVED TO A MODULE//
@@ -113,8 +134,9 @@ async function getOne(id) {
 //PUT ONE FUNCTION TO
 async function updateOne(id, object) {
 	const docRef = db.collection(HAMSTERS).doc(id)
+	const settings = {merge: true}
 
-	docRef.set(object)
+	docRef.set(object, settings)
 }
 
 module.exports = router

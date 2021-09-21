@@ -25,4 +25,20 @@ function isHamstersObject(maybe) {
 	return true
 }
 
-module.exports = { isProperIndex, isHamstersObject }
+function isGameObject(maybe) {
+	if( (typeof maybe) !== 'object' ) {
+		return false
+	}
+	// Body måste innehålla: onbjects keys
+	let keys = Object.keys(maybe)  // ['name', 'email' ..]
+	if( 
+    !keys.includes('wins') || 
+    !keys.includes('games')
+    ) {
+		return false
+	}
+
+	return true
+}
+
+module.exports = { isProperIndex, isHamstersObject, isGameObject }
