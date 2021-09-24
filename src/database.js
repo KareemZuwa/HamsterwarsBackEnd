@@ -1,7 +1,12 @@
 // Import
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../secrets/hamsters-firebase.json');
+let privateKey;
+if( process.env.PRIVATE_KEY ) {
+    privateKey = JSON.parse(process.env.PRIVATE_KEY)
+} else {
+    privateKey = require('../secrets/hamsters-firebase.json')
+}
 
 function connect() {
     admin.initializeApp({

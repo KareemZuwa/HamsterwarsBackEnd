@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server.js",
     "start-server": "node src/server.js",
     "test-frontend": "npx http-server ./evaluate/"
   },
