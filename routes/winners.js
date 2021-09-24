@@ -2,9 +2,6 @@
 const express = require('express')
 const winners = express.Router()
 
-// Importera valideringsfunktioner
-const { isProperIndex, isHamstersObject , isGameObject} = require('./modules/validation.js')
-
 // Hämta databas
 const { db } = require('../routes/modules/dbvariable.js')
 const HAMSTERS = 'hamsters'

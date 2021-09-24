@@ -2,9 +2,6 @@
 const express = require('express')
 const losers = express.Router()
 
-// Importera valideringsfunktioner
-const { isProperIndex, isHamstersObject , isGameObject} = require('./modules/validation.js')
-
 // Hämta databas
 const { db } = require('../routes/modules/dbvariable.js')
 const HAMSTERS = 'hamsters'
@@ -18,7 +15,6 @@ losers.get('/', async (req, res) => {
 	// //Choose top 5 winning Hamsters
     let bottom5Hamsters = defeatedHamsters.sort((a,b) => b-a).slice(0,5);
 	// console.log(bottom5Hamsters);
-    
 	
 	res.status(200).send(bottom5Hamsters);
 })
