@@ -1,14 +1,12 @@
-// Importera express och express router
+// Importera express och exportera express router
 const express = require('express')
 const router = express.Router()
 
 // Importera valideringsfunktioner
-const { isProperIndex, isHamstersObject , isGameObject} = require('./modules/validation.js')
+const { isHamstersObject , isGameObject} = require('./modules/validation.js')
 
 // Hämta databas
-const database = require('../src/database.js')
-const connect = database.connect
-const db = connect()
+const { db } = require('../routes/modules/dbvariable.js')
 const HAMSTERS = 'hamsters'
 
 // GET GET GET GET //
@@ -21,9 +19,14 @@ router.get('/', async (req, res) => {
 //GET hamster/random
 router.get('/random', async (req, res) => {
     let hamsterArray = await getAll()
-
     let randomOne = await hamsterArray[Math.floor(Math.random() * hamsterArray.length)]
     res.send(randomOne) //
+})
+
+router.get('/cutest', async (req, res) => {
+	cutestOfThemAll = await cutestAll()
+
+    res.status(200).send(cutestOfThemAll)
 })
 
 //GET hamster/id
@@ -53,54 +56,35 @@ router.post('/', async (req, res) => {
 // PUT PUT PUT PUT //
 router.put('/:id', async (req, res) => {
 	const maybeBody = await req.body
-	// let docRef = db.collection(HAMSTERS).doc()
-
 	let updateHamster = await getOne(req.params.id);
+
 	if (!updateHamster) {
 		res.sendStatus(404)
 		return
 	};
-	
 	if( !isGameObject(maybeBody) ) {
 		res.status(400).send('Must send a user object.')
 		return
 	}
-	
 	await updateOne(req.params.id, maybeBody)
 	res.sendStatus(200)
-
 })
 
 // DELETE DELETE DELETE DELETE //
 router.delete('/:id', async(req, res) => {
-	// const maybeBody = await req.body
-	let index = req.params.id
-	let hamsterArray = await getAll()
-	let hamsterArrayId = hamsterArray.find(hamster => hamster.id === index)
-	// console.log(hamsterArrayId.index)
-
-	// if (deletedHamster) {
-	// 	hamsterArray = hamsterArray.filter(hamster => hamster.index !== index);
-	// 	const docRef = await db.collection(HAMSTERS).doc(index)
-	//  	await docRef.delete()
-	// 	 res.status(200).send('The hamster got deleted')
-	// 	 return
-
-	// } else {
-	// 	res.status(404).send('Hamster you are lookin for does not exist')
-	// }
-
-
-
-	// 	console.log('It exist a hamster of this ID')
+	let index = await req.params.id
+	let deletedOne = await getOne(req.params.id)
+	if (!deletedOne) {
+		res.status(404).send('Hamster does not exist')
+		return
+	};
 
     const docRef = await db.collection(HAMSTERS).doc(index)
 	 await docRef.delete()
-
 		res.sendStatus(200)
 })
 
-//FUNCTIONS FOR THE ROUTES CAN BE REMOVED TO A MODULE//
+//FUNCTIONS FOR THE ROUTES//
 // GET ALL FUNCTION
 async function getAll() {
 	const hamstersRef = db.collection(HAMSTERS)
@@ -138,5 +122,29 @@ async function updateOne(id, object) {
 
 	docRef.set(object, settings)
 }
+
+
+async function cutestAll() {
+	const hamsterSnapshot = await db.collection(HAMSTERS).get();
+	let resultArray = [];
+	await hamsterSnapshot.forEach(async (docRef) => {
+	  const data = await docRef.data();
+	  data.id = docRef.id;
+	  let diffResult = data.wins - data.defeats;
+	  let newResult = { id: data.id, diff: diffResult };
+	  resultArray.push(newResult);
+	});
+	resultArray.sort((a, b) => {
+	  return b.diff - a.diff;
+	});
+	let topDiff = resultArray.splice(0, 1);
+	let cutest = [];
+	for (let i = 0; i < topDiff.length; i++) {
+	  let hamster = await db.collection(HAMSTERS).doc(topDiff[i].id).get();
+	  let data = hamster.data();
+	  cutest.push(data);
+	}
+	return cutest;
+  }
 
 module.exports = router

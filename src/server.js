@@ -3,6 +3,10 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const hamstersRouter = require('../routes/hamsters.js')
+const matchesRouter = require('../routes/matches.js')
+const matchWinnersRouter = require('../routes/matchWinners.js')
+const loserRouter = require('../routes/losers.js')
+const winnerRouter = require('../routes/winners.js')
 
 // Konfigurera servern
 const PORT = process.env.PORT || 3030
@@ -28,6 +32,15 @@ app.use( '/web', express.static(__dirname + '/../frontend') )
 
 //Hamster endpoints
 app.use('/hamsters', hamstersRouter)
+
+//Endpoints for Matches//
+app.use('/matches', matchesRouter)
+// //EndPionts for matchWinners//
+app.use('/matchwinners', matchWinnersRouter)
+// //EndPionts for losers//
+app.use('/winners', winnerRouter)
+// //EndPionts for losers//
+app.use('/losers', loserRouter)
 
 // Starta servern
 app.listen(PORT, () => {
