@@ -28,7 +28,8 @@ app.use( (req, res, next) => {
 
 //ROUTES AND ENDPOINTS
 //Statisk mapp
-app.use( '/web', express.static(__dirname + '/../frontend') )
+app.use( '/', express.static(__dirname + '/../frontend') )
+app.use( '/imgs', express.static(__dirname + '/../imgs/hamsters') )
 
 //Hamster endpoints
 app.use('/hamsters', hamstersRouter)
