@@ -22,25 +22,21 @@ matchwinners.get('/', async (req, res) => {
 // //GET one Hamster
 matchwinners.get('/:id', async (req, res) => {
 	let index = await req.params.id
-	console.log(index)
+	let matchWinnersArray = await getAllWinners()
 
-	let matchWinnersArray = await getAllWinnersId()
-	console.log(matchWinnersArray)
-	newPost = []
 	let matchList = []
-	// for (let i = 0; i < matchWinnersArray.length; i++) {
-	// 	matchList = matchWinnersArray[i].winnerId
-	// 	console.log(matchList)
-	// 	if (matchList === index) {
-	// 		newPost = {winnerId: matchWinnersArray[i].winnerId}
-	// 		console.log(newPost)
-			
-	// 	}
-	// 	return newPost
-		
-	// }
-	res.status(200).send('couldnt work')
-		
+	matchWinnersArray.forEach((item) => {
+		if (item.winnerId === index) {
+			matchList.push(item)
+		}
+		return matchList
+	})
+
+	if (matchList.length === 0) {
+		res.sendStatus(404)
+		return
+	}
+	res.status(200).send(matchList)
 })
 
 //ASYNC FUNCTIONS COULD REFACTURATE//
@@ -88,8 +84,16 @@ async function getAllWinnersId() {
 		data.id = docRef.id
         array.push(data)
 	})
-    
-	return array
+	// newPost = []
+	// let matchList = []
+	// array.forEach((item) => {
+	// 	matchList.push(item.winnerId)
+	// })
+	// for (let i = 0; i < array.length; i++) {
+	// 	matchList = { winnerId: array[i].winnerId } 
+		
+	// }
+	// return matchList
 }
 
 
